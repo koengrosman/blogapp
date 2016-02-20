@@ -1,0 +1,67 @@
+doctype html
+doctype
+html( lang="en" )
+    head
+    include mixins
+        title Free Blogging 
+        meta( charset='utf-8' )
+        meta( http-equiv='X-UA-Compatible', content='IE=edge' )
+        meta( name='viewport', content='width=device-width, initial-scale=1.0' )
+        meta( name='description', content='Baking Bootstrap Snippets with Jade' )
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
+        script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js')
+        script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js')
+        //- Bootswatch Theme
+        +bootswatch("yeti") 
+    body(style="padding-bottom:10rem;")
+     .row
+     .col-md-12.col-sm-12.col-xs-12
+      .jumbotron
+       h1 Start blogging for free!
+       p Create your blogging acount below and start writing some awesome stuff!
+       a.btn.btn-primary( href="posts" ) See all posts for inspiration
+     .col-md-6.col-sm-6.col-xs-12
+      +panel("Register new account", "primary")
+       .panel-body 
+         form(action='/users' method='post')
+          label Username   
+          br
+          input(name='name')
+          br
+          br
+          label Email address
+          br
+          input(name='email')
+          br
+          br
+          label Password
+          br
+          input(type='password', name='password')
+          br
+          br
+          if succesregister
+            +alert("success") 
+               p=succesregister
+          if errorregister
+            +alert("danger") 
+               p=errorregister
+          input.btn.btn-primary(type='submit', value='Register')
+     .col-md-6.col-sm-6.col-xs-12
+      +panel("Login", "primary")
+       .panel-body
+        form(action='/login' method='post')
+          label Email address
+          br
+          input(name='emaillogin')
+          br
+          br
+          label Password
+          br
+          input(type='password', name='passwordlogin')
+          br
+          br
+          if loginmessage
+           .alert.alert-success
+            p=loginmessage
+          input.btn.btn-primary(type='submit', value='Login')
