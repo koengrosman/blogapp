@@ -1,10 +1,42 @@
-doctype html
-html
-	head
-	body
-		h2= user.name
-		h3= user.email
-
-		a(href='/') home
-		br
-		a(href='/logout') log out
+doctype
+html( lang="en" )
+    head
+        include mixins
+        title Create your blog
+        meta( charset='utf-8' )
+        meta( http-equiv='X-UA-Compatible', content='IE=edge' )
+        meta( name='viewport', content='width=device-width, initial-scale=1.0' )
+        meta( name='description', content='Baking Bootstrap Snippets with Jade' )
+        //- Bootswatch Theme
+        link(href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.0/flatly/bootstrap.min.css", rel="stylesheet")
+        .container
+        script( src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js' )
+        script( src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js' )
+        +bootswatch("yeti") 
+ body(style="padding-bottom:10rem;")
+      .row
+      .col-md-12.col-sm-12.col-xs-12
+       .jumbotron
+        h1 Welcome blogger!
+      .row
+      .col-md-4.col-sm-6.col-xs-12
+       +panel("Create your own post", "primary") 
+         form(action='/users/createpost' method='post' id="createpost")
+          label Title:   
+          br
+          input(name='title')
+          br
+          br
+          label Content:	
+          br
+          textarea(rows='4', cols='.col-md-4.col-sm-6.col-xs-12', name='content', form='createpost')
+          br
+          br
+          if succespost
+            +alert("success") 
+               p=succespost
+          input.btn.btn-primary(type='submit', value='Create post')
+      .col-md-4.col-sm-6.col-xs-12
+       +panel("Written posts", "primary") Do you want an overview of all your posts and comments about it? Click on the button below:
+       a.btn.btn-primary( href="posts" ) See all posts for inspiration
+      .col-md-4.col-sm-6.col-xs-12
