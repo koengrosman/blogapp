@@ -15,6 +15,8 @@ html( lang="en" )
         //- Bootswatch Theme
         +bootswatch("yeti") 
       +nav("Blogapp", "dropdown_menu")
+      +nav_item('/users/') Account
+      +nav_item( "/logout" ) Log out
     body(style="padding-bottom:10rem;")
      .row
      .col-md-12.col-sm-12.col-xs-12
@@ -61,10 +63,19 @@ html( lang="en" )
           input(type='password', name='passwordlogin')
           br
           br
+          if logout
+            +alert("success") 
+               p=logout
           if loginmessage
            .alert.alert-success
             p=loginmessage
           if errorpassword
             +alert("danger") 
                p=errorpassword
+           if errorempty
+            +alert("danger") 
+               p=errorempty
+           if erroremail
+            +alert("danger") 
+               p=erroremail
           input.btn.btn-primary(type='submit', value='Login')

@@ -15,8 +15,8 @@ html( lang="en" )
         +bootswatch("yeti") 
  body(style="padding-bottom:10rem;")
       +nav("Blogapp", "dropdown_menu")
-        +nav_item( " ", "active" ) Your account
         +nav_item( "/" ) Home
+        +nav_item( " ", "active" ) Account
         +nav_item( "/logout" ) Log out
       .row
       .col-md-12.col-sm-12.col-xs-12
@@ -26,12 +26,12 @@ html( lang="en" )
       .col-md-4.col-sm-6.col-xs-12
        +panel("Create your own post", "primary") 
          form(action='/users/createpost' method='post' id="createpost")
-          label Title:   
+          label <strong>Title: </strong>   
           br
           input(name='title')
           br
           br
-          label Content:	
+          label <strong> Content:</strong>
           br
           textarea(rows='4', cols='.col-md-4.col-sm-6.col-xs-12', name='content', form='createpost')
           br
@@ -43,9 +43,9 @@ html( lang="en" )
       .col-md-4.col-sm-6.col-xs-12
        +panel("My posts", "primary") 
         p  Do you want to review your own posts and read the comments about it? Click on the button below:
-        a.btn.btn-primary( href='/users/' + user.id + '/posts') My posts
+        a.btn.btn-primary( href='/users/' + userId + '/posts') My posts
       .col-md-4.col-sm-6.col-xs-12
        +panel("All posts", "primary")
         p  Do you want an overview of all your posts and comments about it? Click on the button below:
-        a.btn.btn-primary( href='/users/' + user.id + '/allposts') All posts
+        a.btn.btn-primary( href='/users/' + userId + '/allposts') All posts
       .col-md-4.col-sm-6.col-xs-12

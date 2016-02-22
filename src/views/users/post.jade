@@ -16,21 +16,30 @@ html( lang="en" )
       body(style="padding-bottom:10rem;")
       +nav("Blogapp", "dropdown_menu")
         +nav_item( "/" ) Home
-        +nav_item( " ", "active" ) All posts
-        +nav_item( '/users/user.id' ) Account
+        +nav_item( '/users/' + userId ) Account
         +nav_item( "/logout" ) Log out
       .row
       .col-md-12.col-sm-12.col-xs-12
        .jumbotron
         h1 Post overview
-        h2 Get inspired by others...
       .row
       each val, index in data
-        .col-md-4.col-sm-6.col-xs-12
+        .col-md-6.col-sm-6.col-xs-12
          +panel(val.title, "primary") 
-          p <strong>Author:</strong>
-          p=val.author
           p <strong>Post date:</strong>
           p=val.timeStamp
-          p <strong>Link post:</strong>
-          p='Content: ' + val.content
+          p <strong>Content:</strong>
+          p=val.content
+     .col-md-6.col-sm-6.col-xs-12
+       +panel("Comment", "primary") 
+         form(action='/users/createpost' method='post' id="createpost")
+          label <strong>Title: </strong>   
+          br
+          input(name='title')
+          br
+          br
+          label <strong> Content:</strong>
+          br
+          textarea(rows='4', cols='.col-md-4.col-sm-6.col-xs-12', name='content', form='createpost')
+          br
+          input.btn.btn-primary(type='submit', value='Write comment')

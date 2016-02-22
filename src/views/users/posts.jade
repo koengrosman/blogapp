@@ -16,14 +16,12 @@ html( lang="en" )
       body(style="padding-bottom:10rem;")
       +nav("Blogapp", "dropdown_menu")
         +nav_item( "/" ) Home
-        +nav_item( " ", "active" ) All posts
-        +nav_item( '/users/user.id' ) Account
+        +nav_item( '/users/' + userId ) Account
         +nav_item( "/logout" ) Log out
       .row
       .col-md-12.col-sm-12.col-xs-12
        .jumbotron
         h1 Post overview
-        h2 Get inspired by others...
       .row
       each val, index in data
         .col-md-4.col-sm-6.col-xs-12
@@ -32,5 +30,4 @@ html( lang="en" )
           p=val.author
           p <strong>Post date:</strong>
           p=val.timeStamp
-          p <strong>Link post:</strong>
-          p='Content: ' + val.content
+          a( href='/users/' + userId + '/post/' + val.id) Open post
