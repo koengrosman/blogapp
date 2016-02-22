@@ -37,7 +37,9 @@ var User = sequelize.define('user', {
 var Post = sequelize.define('post', {
 	userid: Sequelize.INTEGER,
 	title: Sequelize.STRING,
-	content: Sequelize.STRING,
+	content: Sequelize.TEXT,
+	timeStamp: Sequelize.DATE,
+	author: Sequelize.STRING
 });
 
 //this renders the homepage with login and register form
@@ -75,11 +77,11 @@ app.post('/login', function (request, response) {
 			email: request.body.emaillogin
 		}
 	}).then(function (user) {
-		if (request.body.emaillogin === user.email) {
+		if (request.body.passwordlogin === user.password) {
 			request.session.user = user;
     		response.redirect('/users/' + user.id);
 		} else {
-			response.render('index', {message: "Please fill out the form"});
+			response.render('index', {errorpassword: "Invalid password"});
 		}
 	}, function (error) {
 		response.redirect('/?message=' + encodeURIComponent("Invalid email or password."));
@@ -101,15 +103,55 @@ app.get('/users/:id', function (request, response) {
 // this is the post request for creating a new post
 app.post('/users/createpost', function (request, response) {
 	var userid = request.session.user.id;
+	var author = request.session.user.name;
 	var title = request.body.title;
 	var content = request.body.content;	
+	var timeStamp = new Date();	
 
 	Post.create({
 		userid: userid,
+		author: author,
 		title: title,
 		content: content,
+		timeStamp: timeStamp
 	}).then(function (user) {
 		response.render('profile', {succespost: "You've succesfully created a post!"});
+	});
+});
+
+//this route loads all posts
+app.get('/users/:id/allposts', function (request, response) {
+	Post.findAll().then(function (posts) {
+		var data = posts.map(function (post) {
+			return {
+				author: post.dataValues.author,
+				userid: post.dataValues.userid,
+				title: post.dataValues.title,
+				content: post.dataValues.content,
+				timeStamp: post.dataValues.timeStamp
+			};
+		});
+		response.render('users/posts', {data: data});
+	});
+});
+
+//this route loads the posts of a specific user
+app.get('/users/:id/posts', function (request, response) {
+	Post.findAll({
+		where: {
+			userid: request.session.user.id
+		}
+	}).then(function (posts) {
+		var data = posts.map(function (post) {
+			return {
+				author: post.dataValues.author,
+				userid: post.dataValues.userid,
+				title: post.dataValues.title,
+				content: post.dataValues.content,
+				timeStamp: post.dataValues.timeStamp
+			};
+		});
+		response.render('users/posts', {data: data});
 	});
 });
 
@@ -128,14 +170,3 @@ sequelize.sync().then(function () {
 		console.log('Example app listening on port: ' + server.address().port);
 	});
 });
-
-
-app.get('/logout', function (request, response) {
-	request.session.destroy(function(error) {
-		if(error) {
-			throw error;
-		}
-		response.render('index', {loginmessage: "Successfully logged out."});
-	})
-});
-

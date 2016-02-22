@@ -14,19 +14,13 @@ html( lang="en" )
         script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js')
         //- Bootswatch Theme
         +bootswatch("yeti") 
+      +nav("Blogapp", "dropdown_menu")
     body(style="padding-bottom:10rem;")
      .row
      .col-md-12.col-sm-12.col-xs-12
       .jumbotron
        h1 Start blogging for free!
        p Create your blogging acount below and start writing some awesome stuff!
-       a.btn.btn-primary( href="posts" ) See all posts for inspiration
-     .row
-     .col-md-12.col-sm-12.col-xs-12
-      .jumbotron
-       h1 Start blogging for free!
-       p Create your blogging acount below and start writing some awesome stuff!
-       a.btn.btn-primary( href="posts" ) See all posts for inspiration
      .col-md-6.col-sm-6.col-xs-12
       +panel("Register new account", "primary")
        .panel-body 
@@ -70,4 +64,7 @@ html( lang="en" )
           if loginmessage
            .alert.alert-success
             p=loginmessage
+          if errorpassword
+            +alert("danger") 
+               p=errorpassword
           input.btn.btn-primary(type='submit', value='Login')

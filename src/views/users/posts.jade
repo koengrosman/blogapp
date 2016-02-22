@@ -1,0 +1,36 @@
+doctype
+html( lang="en" )
+    head
+    include mixins
+        title Post overview 
+        meta( charset='utf-8' )
+        meta( http-equiv='X-UA-Compatible', content='IE=edge' )
+        meta( name='viewport', content='width=device-width, initial-scale=1.0' )
+        meta( name='description', content='Baking Bootstrap Snippets with Jade' )
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
+        script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js')
+        script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js')
+        //- Bootswatch Theme
+        +bootswatch("yeti") 
+      body(style="padding-bottom:10rem;")
+      +nav("Blogapp", "dropdown_menu")
+        +nav_item( "/" ) Home
+        +nav_item( " ", "active" ) All posts
+        +nav_item( '/users/user.id' ) Account
+        +nav_item( "/logout" ) Log out
+      .row
+      .col-md-12.col-sm-12.col-xs-12
+       .jumbotron
+        h1 Post overview
+        h2 Get inspired by others...
+      .row
+      each val, index in data
+        .col-md-4.col-sm-6.col-xs-12
+         +panel(val.title, "primary") 
+          p <strong>Author:</strong>
+          p=val.author
+          p <strong>Post date:</strong>
+          p=val.timeStamp
+          p <strong>Link post:</strong>
+          p='Content: ' + val.content
