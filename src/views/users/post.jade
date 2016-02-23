@@ -13,26 +13,33 @@ html( lang="en" )
         script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js')
         //- Bootswatch Theme
         +bootswatch("yeti") 
-      body(style="padding-bottom:10rem;")
+     body(style="padding-bottom:10rem;")
       +nav("Blogapp", "dropdown_menu")
         +nav_item( "/" ) Home
-        +nav_item( '/users/' + userId ) Account
+        +nav_item( "/users/") Account
         +nav_item( "/logout" ) Log out
       .row
       .col-md-12.col-sm-12.col-xs-12
        .jumbotron
         h1 Post overview
       .row
-      each val, index in data
-        .col-md-6.col-sm-6.col-xs-12
+      if data
+       each val, index in data
+        .col-md-4.col-sm-6.col-xs-12
          +panel(val.title, "primary") 
           p <strong>Post date:</strong>
           p=val.timeStamp
           p <strong>Content:</strong>
           p=val.content
-     .col-md-6.col-sm-6.col-xs-12
-       +panel("Comment", "primary") 
-         form(action='/users/createpost' method='post' id="createpost")
+        .col-md-4.col-sm-6.col-xs-12
+         +panel('Comments', "primary") 
+          p <strong>Post date:</strong>
+          p=val.timeStamp
+          p <strong>Content:</strong>
+          p=val.content
+     .col-md-4.col-sm-6.col-xs-12
+       +panel("Write a comment", "primary") 
+         form(action='/users/' + userId + '/post/' + postId + '/createcomment' method='post' id="createcomment")
           label <strong>Title: </strong>   
           br
           input(name='title')
@@ -40,6 +47,10 @@ html( lang="en" )
           br
           label <strong> Content:</strong>
           br
-          textarea(rows='4', cols='.col-md-4.col-sm-6.col-xs-12', name='content', form='createpost')
+          textarea(rows='4', cols='.col-md-4.col-sm-6.col-xs-12', name='content', form='createcomment')
           br
           input.btn.btn-primary(type='submit', value='Write comment')
+          br
+          if succespost
+            +alert("success") 
+               p=succespost

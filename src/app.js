@@ -34,8 +34,19 @@ var User = sequelize.define('user', {
 	password: Sequelize.STRING
 });
 
+//this defines the new table post in sequalize
 var Post = sequelize.define('post', {
 	userid: Sequelize.INTEGER,
+	title: Sequelize.STRING,
+	content: Sequelize.TEXT,
+	timeStamp: Sequelize.DATE,
+	author: Sequelize.STRING
+});
+
+//this defines the new table comment in sequalize
+var Comment = sequelize.define('comment', {
+	userid: Sequelize.INTEGER,
+	postid: Sequelize.INTEGER,
 	title: Sequelize.STRING,
 	content: Sequelize.TEXT,
 	timeStamp: Sequelize.DATE,
@@ -203,11 +214,32 @@ app.get('/users/:id/post/:ip', function(request, response) {
 			});
 			response.render('users/post', {
 				data: data,
-				userId: request.session.user.id
+				userId: request.session.user.id,
+				postId: request.params.ip
 			});
 		});
 	});
 
+// this is the post request for creating a new comment
+app.post('/users/:id/post/:ip/createcomment', function(request, response) {
+	var userid = request.session.user.id;
+	var postid = request.params.ip;
+	var author = request.session.user.name;
+	var title = request.body.title;
+	var content = request.body.content;
+	var timeStamp = new Date();
+
+	Comment.create({
+		userid: request.session.user.id,
+		postid: postid,
+		author: author,
+		title: title,
+		content: content,
+		timeStamp: timeStamp
+	}).then(function(user) {
+		response.redirect('/users/' + userid + '/post/' + postid);
+	});
+});
 
 //this makes it possible for a user to logout
 app.get('/logout', function(request, response) {
