@@ -24,7 +24,7 @@ html( lang="en" )
         h1 Post overview
       .row
       each val, index in data
-        .col-md-4.col-sm-6.col-xs-12
+        .col-md-4.col-sm-4.col-xs-12
          +panel(val.timeStamp, "primary") 
           p <strong>Title:</strong>
           p=val.title 

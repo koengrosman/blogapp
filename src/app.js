@@ -200,7 +200,7 @@ app.get('/users/:id/post/:ip', function(request, response) {
 	Promise.all([
 		Comment.findAll({
 			where: {
-				id: request.params.ip
+				postid: request.params.ip
 			}
 		}),
 
@@ -210,8 +210,6 @@ app.get('/users/:id/post/:ip', function(request, response) {
 			}
 		})
 	]).then(function(result) {
-		console.log
-
 		var comment = result[0].map(function(comment) {
 			return {
 				id: comment.dataValues.id,
@@ -232,7 +230,6 @@ app.get('/users/:id/post/:ip', function(request, response) {
 					timeStamp: post.dataValues.timeStamp
 				};
 			});
-		console.log(comment);
 
 		response.render('users/post', {
 				post: post,
