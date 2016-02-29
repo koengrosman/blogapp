@@ -139,7 +139,7 @@ app.post('/users/createpost', function(request, response) {
 	var timeStamp = new Date();
 
 	Post.create({
-		userId: request.session.user.id,
+		userid: request.session.user.id,
 		author: author,
 		title: title,
 		content: content,
@@ -196,13 +196,33 @@ app.get('/users/:id/posts', function(request, response) {
 });
 
 app.get('/users/:id/post/:ip', function(request, response) {
-	console.log (request.session.user);
+
+	Promise.all([
+		Comment.findAll({
+			where: {
+				id: request.params.ip
+			}
+		}),
+
 		Post.findAll({
 			where: {
 				id: request.params.ip
 			}
-		}).then(function(posts) {
-			var data = posts.map(function(post) {
+		})
+	]).then(function(result) {
+		console.log
+
+		var comment = result[0].map(function(comment) {
+			return {
+				id: comment.dataValues.id,
+				author: comment.dataValues.author,
+				userid: comment.dataValues.userid,
+				title: comment.dataValues.title,
+				content: comment.dataValues.content,
+				timeStamp: comment.dataValues.timeStamp
+			};
+		})
+		var post = result[1].map(function(post) {
 				return {
 					id: post.dataValues.id,
 					author: post.dataValues.author,
@@ -212,13 +232,16 @@ app.get('/users/:id/post/:ip', function(request, response) {
 					timeStamp: post.dataValues.timeStamp
 				};
 			});
-			response.render('users/post', {
-				data: data,
+		console.log(comment);
+
+		response.render('users/post', {
+				post: post,
+				comment: comment,
 				userId: request.session.user.id,
 				postId: request.params.ip
 			});
-		});
 	});
+});
 
 // this is the post request for creating a new comment
 app.post('/users/:id/post/:ip/createcomment', function(request, response) {

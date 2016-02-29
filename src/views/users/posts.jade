@@ -25,9 +25,9 @@ html( lang="en" )
       .row
       each val, index in data
         .col-md-4.col-sm-6.col-xs-12
-         +panel(val.title, "primary") 
+         +panel(val.timeStamp, "primary") 
+          p <strong>Title:</strong>
+          p=val.title 
           p <strong>Author:</strong>
           p=val.author
-          p <strong>Post date:</strong>
-          p=val.timeStamp
           a( href='/users/' + userId + '/post/' + val.id) Open post

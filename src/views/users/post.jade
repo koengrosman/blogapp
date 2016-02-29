@@ -23,34 +23,38 @@ html( lang="en" )
        .jumbotron
         h1 Post overview
       .row
-      if data
-       each val, index in data
-        .col-md-4.col-sm-6.col-xs-12
-         +panel(val.title, "primary") 
-          p <strong>Post date:</strong>
-          p=val.timeStamp
-          p <strong>Content:</strong>
-          p=val.content
+       each val, index in post
         .col-md-4.col-sm-6.col-xs-12
          +panel('Comments', "primary") 
           p <strong>Post date:</strong>
           p=val.timeStamp
           p <strong>Content:</strong>
           p=val.content
-     .col-md-4.col-sm-6.col-xs-12
-       +panel("Write a comment", "primary") 
-         form(action='/users/' + userId + '/post/' + postId + '/createcomment' method='post' id="createcomment")
-          label <strong>Title: </strong>   
-          br
-          input(name='title')
-          br
-          br
-          label <strong> Content:</strong>
-          br
-          textarea(rows='4', cols='.col-md-4.col-sm-6.col-xs-12', name='content', form='createcomment')
-          br
-          input.btn.btn-primary(type='submit', value='Write comment')
-          br
-          if succespost
+       each val, index in comment
+        .col-md-4.col-sm-6.col-xs-12
+         +panel(val.title, "primary") 
+          p <strong>Author:</strong>
+          p=val.author
+          p <strong>Post date:</strong>
+          p=val.timeStamp
+          p <strong>Post date:</strong>
+          p=val.timeStamp
+          p <strong>Content:</strong>
+          p=val.content
+      .col-md-4.col-sm-6.col-xs-12
+         +panel("Write a comment", "primary") 
+          form(action='/users/' + userId + '/post/' + postId + '/createcomment' method='post' id="createcomment")
+           label <strong>Title: </strong>   
+           br
+           input(name='title')
+           br
+           br
+           label <strong> Content:</strong>
+           br
+           textarea(rows='4', cols='.col-md-4.col-sm-6.col-xs-12', name='content', form=' createcomment')
+           br
+           input.btn.btn-primary(type='submit', value='Write comment')
+           br
+           if succespost
             +alert("success") 
                p=succespost
